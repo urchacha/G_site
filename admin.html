@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>관리자 — 문구 수정 | (주)지플러스코리아</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="admin">
+
+  <header class="admin-header">
+    <div class="admin-header__left">
+      <img src="assets/logo.png" alt="G+ 로고" height="48">
+      <span class="admin-header__title">관리자 — 문구 수정</span>
+    </div>
+    <a href="index.html" class="admin-header__link">사이트로 이동 →</a>
+  </header>
+
+  <main class="admin-main">
+
+    <div id="load-error" class="panel panel--error" hidden>
+      <p>저장소를 사용할 수 없습니다. 사생활 보호 모드를 끄거나 다른 브라우저에서 열어 주세요.</p>
+    </div>
+
+    <!-- HERO -->
+    <section class="panel" data-section>
+      <h2>홈 — 히어로</h2>
+      <div class="field">
+        <label for="f-heroEyebrow">강조 문구 (eyebrow)</label>
+        <input id="f-heroEyebrow" type="text" data-field="heroEyebrow">
+      </div>
+      <div class="field">
+        <label for="f-heroTitle">메인 타이틀</label>
+        <input id="f-heroTitle" type="text" data-field="heroTitle">
+      </div>
+      <div class="field">
+        <label for="f-heroSubtitle">설명 문구</label>
+        <textarea id="f-heroSubtitle" data-field="heroSubtitle"></textarea>
+      </div>
+      <div class="save-row">
+        <button type="button" class="btn-save" data-save>저장</button>
+        <span class="pill pill-ok" data-saved hidden>저장됨</span>
+        <span class="pill pill-err" data-error hidden></span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="panel" data-section>
+      <h2>회사소개</h2>
+      <div class="field">
+        <label for="f-aboutHeadline">소개 페이지 헤드라인</label>
+        <textarea id="f-aboutHeadline" data-field="aboutHeadline"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-aboutPara1">소개 문단 1 (홈 더보기 영역에도 함께 표시)</label>
+        <textarea id="f-aboutPara1" data-field="aboutPara1"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-aboutPara2">소개 문단 2 (홈 더보기 영역에도 함께 표시)</label>
+        <textarea id="f-aboutPara2" data-field="aboutPara2"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-aboutPara3">소개 문단 3 (감사 인사)</label>
+        <textarea id="f-aboutPara3" data-field="aboutPara3"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-visionText">VISION</label>
+        <textarea id="f-visionText" data-field="visionText"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-missionText">MISSION</label>
+        <textarea id="f-missionText" data-field="missionText"></textarea>
+      </div>
+      <div class="save-row">
+        <button type="button" class="btn-save" data-save>저장</button>
+        <span class="pill pill-ok" data-saved hidden>저장됨</span>
+        <span class="pill pill-err" data-error hidden></span>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="panel" data-section>
+      <h2>제품소개</h2>
+      <div class="field">
+        <label for="f-productsTitle">제품 타이틀 (홈 · 제품소개 공통)</label>
+        <input id="f-productsTitle" type="text" data-field="productsTitle">
+      </div>
+      <div class="field">
+        <label for="f-productsDescription">제품소개 설명 문구</label>
+        <textarea id="f-productsDescription" data-field="productsDescription"></textarea>
+      </div>
+      <div class="save-row">
+        <button type="button" class="btn-save" data-save>저장</button>
+        <span class="pill pill-ok" data-saved hidden>저장됨</span>
+        <span class="pill pill-err" data-error hidden></span>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="panel" data-section>
+      <h2>문의 · 연락처 (전 페이지 공통)</h2>
+      <div class="field">
+        <label for="f-contactTitle">문의 섹션 타이틀</label>
+        <input id="f-contactTitle" type="text" data-field="contactTitle">
+      </div>
+      <div class="field">
+        <label for="f-contactSubtitle">문의 섹션 설명</label>
+        <input id="f-contactSubtitle" type="text" data-field="contactSubtitle">
+      </div>
+      <div class="field">
+        <label for="f-phone">전화번호</label>
+        <input id="f-phone" type="tel" data-field="phone">
+      </div>
+      <div class="field">
+        <label for="f-email">이메일</label>
+        <input id="f-email" type="email" data-field="email">
+      </div>
+      <div class="save-row">
+        <button type="button" class="btn-save" data-save>저장</button>
+        <span class="pill pill-ok" data-saved hidden>저장됨</span>
+        <span class="pill pill-err" data-error hidden></span>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/content.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

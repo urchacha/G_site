@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>G PLUS KOREA | (주)지플러스코리아</title>
+  <meta name="description" content="G+ 할로우 로터리 · 정밀 유성감속기 전문기업 (주)지플러스코리아">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a href="#top" aria-label="지플러스코리아 홈"><img class="site-header__logo" src="assets/logo.png" alt="G+ 로고" height="80"></a>
+    <nav aria-label="주요 메뉴">
+      <ul class="navlist">
+        <li><a class="navlink" href="about.html">회사소개</a></li>
+        <li><a class="navlink" href="products.html">제품소개</a></li>
+        <li><a class="navlink" href="#selection">제품선정</a></li>
+        <li><a class="navlink" href="#contact">문의</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section id="top" class="hero">
+      <div class="hero__inner">
+        <span class="hero__eyebrow" data-bind="heroEyebrow"></span>
+        <h1 class="hero__title" data-bind="heroTitle"></h1>
+        <p class="hero__subtitle" data-bind="heroSubtitle"></p>
+        <div class="btn-row">
+          <a href="products.html" class="btn btn--primary">제품 라인업 보기</a>
+          <a href="#contact" class="btn btn--outline">문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="about-teaser">
+      <span class="eyebrow">COMPANY</span>
+      <h2 class="h2">(주)지플러스코리아</h2>
+      <p class="about-teaser__en">GIGA Precision Technology Co., Ltd. &amp; G+ KOREA Co., Ltd.</p>
+      <p class="about-teaser__p1" data-bind="aboutPara1"></p>
+      <p class="about-teaser__p2" data-bind="aboutPara2"></p>
+      <a href="about.html" class="btn btn--outline btn--sm">더보기</a>
+    </section>
+
+    <!-- PRODUCTS (teaser) -->
+    <section id="products" class="section section--grey">
+      <div class="teaser">
+        <span class="eyebrow">주력 제품군</span>
+        <h2 class="h2" data-bind="productsTitle"></h2>
+        <div class="tags">
+          <span class="tag">Hypoid Gear형</span>
+          <span class="tag">Helical Gear형</span>
+          <span class="tag">롤러캠 · RV · 정밀웜 형</span>
+          <span class="tag">유성감속기 동축형</span>
+          <span class="tag">유성감속기 앵글형</span>
+        </div>
+        <a href="products.html" class="btn btn--primary">전체 제품 보기</a>
+      </div>
+    </section>
+
+    <!-- G SELECTION -->
+    <section id="selection" class="section section--grey">
+      <div class="selection">
+        <div>
+          <span class="eyebrow">제품선정</span>
+          <h2 class="h2">G Selection</h2>
+          <p>QR을 스캔하거나 아래 버튼을 눌러 감속기 선정툴로 이동하세요.</p>
+        </div>
+        <a href="https://gearbox.gpluskorea.kr" target="_blank" rel="noopener" class="qr-card" aria-label="G Selection 선정툴 열기">
+          <img src="assets/gselection-qr.png" alt="G Selection QR 코드" width="140" height="140">
+          <span>gearbox.gpluskorea.kr</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <span class="eyebrow">CONTACT</span>
+      <h2 class="h2" data-bind="contactTitle"></h2>
+      <p class="lead" data-bind="contactSubtitle"></p>
+      <div class="contact__lines">
+        <p>Tel. <span data-bind="phone"></span></p>
+        <p>E-mail. <span data-bind="email"></span></p>
+      </div>
+      <a href="#" data-mailto class="btn btn--primary">이메일 보내기</a>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__cols">
+        <div class="site-footer__col">
+          <p class="site-footer__label">ADDRESS</p>
+          <p class="site-footer__name">(주)지플러스코리아</p>
+          <p>경기도 부천시 원미구 조마루로385번길 122<br>삼보테크노타워 1층 130호</p>
+        </div>
+        <div class="site-footer__col">
+          <p class="site-footer__label">CONTACT</p>
+          <p>Tel. <span data-bind="phone"></span></p>
+          <p>E-mail. <span data-bind="email"></span></p>
+        </div>
+        <div class="site-footer__col">
+          <p class="site-footer__label">INFORMATION</p>
+          <p>G+한국지사</p>
+          <p>주요 종목 : 동력전달용 자동화기기 전문</p>
+        </div>
+      </div>
+      <p class="site-footer__copy"><span>COPYRIGHT (c) (주)지플러스코리아 ALL RIGHTS RESERVED.</span><a href="admin.html" class="site-footer__admin">관리자</a></p>
+    </div>
+  </footer>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

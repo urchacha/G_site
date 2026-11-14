@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>회사소개 | (주)지플러스코리아</title>
+  <meta name="description" content="(주)지플러스코리아 회사소개 — 비전, 미션, 연혁">
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <a href="index.html" aria-label="지플러스코리아 홈"><img class="site-header__logo" src="assets/logo.png" alt="G+ 로고" height="80"></a>
+    <nav aria-label="주요 메뉴">
+      <ul class="navlist">
+        <li><a class="navlink" href="#top" aria-current="page">회사소개</a></li>
+        <li><a class="navlink" href="products.html">제품소개</a></li>
+        <li><a class="navlink" href="index.html#selection">제품선정</a></li>
+        <li><a class="navlink" href="index.html#contact">문의</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TITLE / INTRO -->
+    <section id="top" class="page-title">
+      <div class="about-intro">
+        <span class="eyebrow">ABOUT US</span>
+        <h1 data-bind="aboutHeadline"></h1>
+        <p data-bind="aboutPara1"></p>
+        <p data-bind="aboutPara2"></p>
+        <p class="about-intro__last" data-bind="aboutPara3"></p>
+        <p class="about-intro__sign">지플러스코리아 임직원 일동</p>
+      </div>
+    </section>
+
+    <!-- SERVICE -->
+    <section class="section" style="padding-top:72px; padding-bottom:72px;">
+      <div class="service">
+        <h2 class="h2 h2--caps">SERVICE</h2>
+
+        <div class="srow">
+          <div class="slabel">
+            <p class="slabel__num">01</p>
+            <p class="slabel__name">VALUE</p>
+          </div>
+          <div class="scontent">
+            <div class="values">
+              <span>사람 중심</span>
+              <span>이익 나눔</span>
+              <span>책임 실행</span>
+              <span>공동 발전</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="srow">
+          <div class="slabel">
+            <p class="slabel__num">02</p>
+            <p class="slabel__name">VISION</p>
+          </div>
+          <div class="scontent"><p data-bind="visionText"></p></div>
+        </div>
+
+        <div class="srow">
+          <div class="slabel">
+            <p class="slabel__num">03</p>
+            <p class="slabel__name">MISSION</p>
+          </div>
+          <div class="scontent"><p data-bind="missionText"></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="section section--grey history" style="padding-top:72px; padding-bottom:72px;">
+      <div class="container">
+        <h2 class="h2 h2--caps center" style="margin-bottom:28px;">HISTORY</h2>
+        <div class="dgrid">
+          <div class="dcard">
+            <h3>2002 ~</h3>
+            <p>G+ 본사는 제조, 연구개발(R&amp;D), 고객 서비스를 통합 공급하는 다각화된 기업입니다. 동력 전달 분야 혁신기업으로서, 당시의 목표는 사용자에게 신뢰할 수 있고 가성비 높은 솔루션을 제공하여 사용자의 요구를 충족시키는 것입니다.</p>
+          </div>
+          <div class="dcard">
+            <h3>2013</h3>
+            <p style="margin-bottom:6px;">G+ 브랜드는 고객에게 고품질, 고성능 제품을 제공하는 데 전념하고 있습니다. 대만, 심천, 동관에 R&amp;D 센터와 생산 기지를 두고 있습니다.</p>
+            <p class="dcard__facts">☑ 직원 150+ &nbsp;&nbsp;☑ 면적 20,000 sq. meter+</p>
+            <p class="dcard__facts">☑ 특허 80+ &nbsp;&nbsp;☑ 제품 90+</p>
+          </div>
+          <div class="dcard">
+            <h3>2024</h3>
+            <p>(주)지플러스코리아 G+Korea 법인 설립. "사람 중심, 고객 우선, 정직한 서비스 기준 확립, 세심한 작업 방법 적용"을 원칙으로 운영합니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWS -->
+    <section class="news">
+      <div class="container">
+        <h2 class="h2">NEWS</h2>
+        <div class="news-row">
+          <p class="news-row__title">G+ 2025 전시회 일정</p>
+          <p class="news-row__date">2025-01-21</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__cols">
+        <div class="site-footer__col">
+          <p class="site-footer__label">ADDRESS</p>
+          <p class="site-footer__name">(주)지플러스코리아</p>
+          <p>경기도 부천시 원미구 조마루로385번길 122<br>삼보테크노타워 1층 130호</p>
+        </div>
+        <div class="site-footer__col">
+          <p class="site-footer__label">CONTACT</p>
+          <p>Tel. <span data-bind="phone"></span></p>
+          <p>E-mail. <span data-bind="email"></span></p>
+        </div>
+        <div class="site-footer__col">
+          <p class="site-footer__label">INFORMATION</p>
+          <p>G+한국지사</p>
+          <p>주요 종목 : 동력전달용 자동화기기 전문</p>
+        </div>
+      </div>
+      <p class="site-footer__copy"><span>COPYRIGHT (c) (주)지플러스코리아 ALL RIGHTS RESERVED.</span><a href="admin.html" class="site-footer__admin">관리자</a></p>
+    </div>
+  </footer>
+
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
