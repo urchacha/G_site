@@ -31,6 +31,36 @@
       });
     });
 
+    // <div data-bind-news="key"> → one .news-row per item; the enclosing
+    // [data-news-section] is hidden when there is nothing to show.
+    document.querySelectorAll("[data-bind-news]").forEach(function (box) {
+      var items = (content[box.getAttribute("data-bind-news")] || []).filter(function (n) {
+        return n && n.title && n.title.trim();
+      });
+      box.textContent = "";
+      items.forEach(function (n) {
+        var link = (n.link || "").trim();
+        var safe = link && !/^\s*(javascript|data|vbscript):/i.test(link);
+        var row = document.createElement(safe ? "a" : "div");
+        row.className = "news-row" + (safe ? " news-row--link" : "");
+        if (safe) {
+          row.href = link;
+          if (/^https?:\/\//i.test(link)) { row.target = "_blank"; row.rel = "noopener"; }
+        }
+        var t = document.createElement("p");
+        t.className = "news-row__title";
+        t.textContent = n.title;
+        var d = document.createElement("p");
+        d.className = "news-row__date";
+        d.textContent = n.date || "";
+        row.appendChild(t);
+        row.appendChild(d);
+        box.appendChild(row);
+      });
+      var section = box.closest("[data-news-section]");
+      if (section) section.hidden = items.length === 0;
+    });
+
     document.querySelectorAll("[data-mailto]").forEach(function (a) {
       a.href = "mailto:" + content.email;
     });

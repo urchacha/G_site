@@ -32,6 +32,10 @@
     history2Text: "G+ 브랜드는 고객에게 고품질, 고성능 제품을 제공하는 데 전념하고 있습니다. 대만, 심천, 동관에 R&D 센터와 생산 기지를 두고 있습니다.",
     history3Title: "2024",
     history3Text: "(주)지플러스코리아 G+Korea 법인 설립. \"사람 중심, 고객 우선, 정직한 서비스 기준 확립, 세심한 작업 방법 적용\"을 원칙으로 운영합니다.",
+    /* NEWS rows on about.html, shown in this order. link is optional. */
+    news: [
+      { title: "G+ 2025 전시회 일정", date: "2025-01-21", link: "" },
+    ],
 
     productsTitle: "할로우 로터리 · 정밀 유성감속기",
     productsDescription: "설치 환경과 동력전달 방식에 맞춰 선택할 수 있는 전체 라인업입니다.",
@@ -67,6 +71,7 @@
   function loadContent() {
     var merged = Object.assign({}, DEFAULTS, migrate(readRaw()) || {});
     merged.aboutParagraphs = (merged.aboutParagraphs || []).slice();
+    merged.news = (merged.news || []).map(function (n) { return Object.assign({}, n); });
     return merged;
   }
 
