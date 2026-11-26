@@ -52,22 +52,21 @@
     <!-- ABOUT -->
     <section class="panel" data-section>
       <h2>회사소개</h2>
+      <p class="panel__hint">문단별로 수정·추가·삭제·순서 변경이 가능합니다. 내용을 비운 문단은 저장 시 자동으로 제거됩니다.</p>
+
+      <h3 class="panel__sub">인사말</h3>
       <div class="field">
-        <label for="f-aboutHeadline">소개 페이지 헤드라인</label>
+        <label for="f-aboutHeadline">헤드라인</label>
         <textarea id="f-aboutHeadline" data-field="aboutHeadline"></textarea>
       </div>
+      <div class="list" data-list="aboutParagraphs" data-list-note="홈 회사소개 영역에도 표시"></div>
+      <button type="button" class="btn-add" data-list-add="aboutParagraphs">+ 문단 추가</button>
       <div class="field">
-        <label for="f-aboutPara1">소개 문단 1 (홈 더보기 영역에도 함께 표시)</label>
-        <textarea id="f-aboutPara1" data-field="aboutPara1"></textarea>
+        <label for="f-aboutSign">맺음말 (서명)</label>
+        <input id="f-aboutSign" type="text" data-field="aboutSign">
       </div>
-      <div class="field">
-        <label for="f-aboutPara2">소개 문단 2 (홈 더보기 영역에도 함께 표시)</label>
-        <textarea id="f-aboutPara2" data-field="aboutPara2"></textarea>
-      </div>
-      <div class="field">
-        <label for="f-aboutPara3">소개 문단 3 (감사 인사)</label>
-        <textarea id="f-aboutPara3" data-field="aboutPara3"></textarea>
-      </div>
+
+      <h3 class="panel__sub">SERVICE</h3>
       <div class="field">
         <label for="f-visionText">VISION</label>
         <textarea id="f-visionText" data-field="visionText"></textarea>
@@ -75,6 +74,38 @@
       <div class="field">
         <label for="f-missionText">MISSION</label>
         <textarea id="f-missionText" data-field="missionText"></textarea>
+      </div>
+
+      <h3 class="panel__sub">HISTORY</h3>
+      <div class="field-pair">
+        <div class="field field--year">
+          <label for="f-history1Title">연도 1</label>
+          <input id="f-history1Title" type="text" data-field="history1Title">
+        </div>
+        <div class="field">
+          <label for="f-history1Text">내용 1</label>
+          <textarea id="f-history1Text" data-field="history1Text"></textarea>
+        </div>
+      </div>
+      <div class="field-pair">
+        <div class="field field--year">
+          <label for="f-history2Title">연도 2</label>
+          <input id="f-history2Title" type="text" data-field="history2Title">
+        </div>
+        <div class="field">
+          <label for="f-history2Text">내용 2 (아래 직원·특허 수치는 고정)</label>
+          <textarea id="f-history2Text" data-field="history2Text"></textarea>
+        </div>
+      </div>
+      <div class="field-pair">
+        <div class="field field--year">
+          <label for="f-history3Title">연도 3</label>
+          <input id="f-history3Title" type="text" data-field="history3Title">
+        </div>
+        <div class="field">
+          <label for="f-history3Text">내용 3</label>
+          <textarea id="f-history3Text" data-field="history3Text"></textarea>
+        </div>
       </div>
       <div class="save-row">
         <button type="button" class="btn-save" data-save>저장</button>
