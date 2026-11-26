@@ -165,7 +165,8 @@ img { display: block; }
 .slabel__name { margin: 0; font-size: 18px; font-weight: 800; color: var(--ink-strong); }
 .scontent { flex: 1 1 auto; min-width: 0; }
 .scontent p { max-width: var(--text-max); margin: 0; font-size: 14px; color: var(--muted); }
-.values { display: flex; gap: 28px; flex-wrap: wrap; font-size: 14px; color: var(--text); font-weight: 600; }
+/* Sits on the VALUE line: skip the "01" line (13px × 1.5) and share VALUE's line box (18px × 1.5). */
+.values { display: flex; gap: 8px 28px; flex-wrap: wrap; margin-top: 19.5px; font-size: 21px; line-height: 27px; color: var(--text); font-weight: 600; }
 
 .history .dcard h3 { font-size: 22px; }
 .history .dcard__facts { font-size: 13px; color: var(--text); }
@@ -216,6 +217,7 @@ img { display: block; }
   .mgrid { grid-template-columns: 1fr; }
   .srow { flex-direction: column; gap: 14px; }
   .slabel { flex: 0 0 auto; }
+  .values { margin-top: 0; }
 }
 @media (max-width: 560px) {
   .dgrid, .fgrid4 { grid-template-columns: 1fr; }
