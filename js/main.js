@@ -1,6 +1,7 @@
 /* Renders editable content (from GPlusContent) into the public pages. */
 (function () {
   var C = window.GPlusContent;
+  var R = window.GPlusRich;
 
   /* "key" → content.key ; "key.N" → N-th item of a list field. */
   function lookup(content, path) {
@@ -14,19 +15,23 @@
     var content = C.loadContent();
 
     document.querySelectorAll("[data-bind]").forEach(function (node) {
-      var value = lookup(content, node.getAttribute("data-bind"));
-      node.textContent = value == null ? "" : value;
-      if (node.hasAttribute("data-hide-empty")) node.hidden = !value;
+      var key = node.getAttribute("data-bind");
+      var value = lookup(content, key);
+      if (R.isRichKey(key)) node.innerHTML = R.toSafeHtml(value); // sanitised: b / span styles / br only
+      else node.textContent = value == null ? "" : value;
+      if (node.hasAttribute("data-hide-empty")) node.hidden = !R.plainText(value).trim();
     });
 
     // <div data-bind-list="key"> → one <p> per non-empty paragraph.
     document.querySelectorAll("[data-bind-list]").forEach(function (box) {
-      var items = content[box.getAttribute("data-bind-list")] || [];
+      var key = box.getAttribute("data-bind-list");
+      var items = content[key] || [];
       box.textContent = "";
       items.forEach(function (text) {
-        if (!text || !text.trim()) return;
+        if (!R.plainText(text).trim()) return;
         var p = document.createElement("p");
-        p.textContent = text;
+        if (R.isRichKey(key)) p.innerHTML = R.toSafeHtml(text);
+        else p.textContent = text;
         box.appendChild(p);
       });
     });

@@ -252,6 +252,21 @@ img { display: block; }
 .list-item__field label { font-size: 11px; font-weight: 700; color: var(--subtle); }
 .list-item__field input { font-family: var(--font); font-size: 14px; color: var(--ink-strong); border: 1px solid var(--border-strong); border-radius: 8px; padding: 8px 10px; width: 100%; outline: none; background: #fff; }
 .list-item__field input:focus { border-color: var(--accent); }
+/* Rich text editor (js/richtext.js) */
+.admin-note { margin: 0 0 24px; padding: 14px 16px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-size: 13px; color: var(--text); }
+.rich { border: 1px solid var(--border-strong); border-radius: 8px; background: #fff; overflow: hidden; }
+.rich:focus-within { border-color: var(--accent); }
+.rich__bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 6px 8px; border-bottom: 1px solid var(--border); background: var(--bg-tint); }
+.rich__group { display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); }
+.rich__btn { font-family: inherit; font-size: 12px; font-weight: 600; min-width: 28px; height: 28px; padding: 0 8px; border: 1px solid var(--border-strong); border-radius: 6px; background: #fff; color: var(--text); cursor: pointer; }
+.rich__btn:hover { border-color: var(--accent); color: var(--accent); }
+.rich__btn--bold { font-size: 14px; }
+.rich__swatch { flex: 0 0 auto; min-width: 0; width: 20px; height: 20px; padding: 0; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--border-strong); }
+.rich__swatch:hover { box-shadow: 0 0 0 2px var(--accent); }
+.rich .rich__picker { flex: 0 0 auto; width: 28px; height: 24px; padding: 0; border: 1px solid var(--border-strong); border-radius: 6px; background: #fff; cursor: pointer; }
+.rich__size { font-family: inherit; font-size: 12px; height: 28px; padding: 0 6px; border: 1px solid var(--border-strong); border-radius: 6px; background: #fff; color: var(--text); cursor: pointer; }
+.rich__area { min-height: 88px; padding: 10px 12px; font-size: 14px; line-height: 1.5; color: var(--ink-strong); outline: none; overflow-wrap: anywhere; }
+.list-item .rich__area { min-height: 110px; }
 .list-empty { margin: 0; font-size: 13px; color: var(--subtle); }
 .btn-mini { font-family: inherit; font-size: 12px; font-weight: 700; min-width: 30px; padding: 5px 9px; border-radius: 6px; border: 1px solid var(--border-strong); background: #fff; color: var(--text); cursor: pointer; }
 .btn-mini:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }

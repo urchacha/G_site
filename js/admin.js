@@ -1,6 +1,7 @@
 /* Admin editor for the text shown on the public pages. Each panel saves its own fields. */
 (function () {
   var C = window.GPlusContent;
+  var R = window.GPlusRich;
 
   function storageAvailable() {
     try {
@@ -83,12 +84,12 @@
   };
 
   ListEditor.prototype.isEmpty = function (item) {
-    if (!this.schema) return !String(item).trim();
+    if (!this.schema) return !R.plainText(item).trim();
     return this.schema.fields.every(function (f) { return !String(item[f.key] || "").trim(); });
   };
 
   ListEditor.prototype.summary = function (item) {
-    return (this.schema ? String(item[this.schema.fields[0].key] || "") : String(item)).trim().slice(0, 30);
+    return (this.schema ? String(item[this.schema.fields[0].key] || "") : R.plainText(item)).trim().slice(0, 30);
   };
 
   ListEditor.prototype.sync = function () {
@@ -156,6 +157,7 @@
         ta.id = id;
         ta.value = text;
         item.appendChild(ta);
+        if (R.isRichKey(self.key)) new R.Editor(ta, name);
       } else {
         var grid = document.createElement("div");
         grid.className = "list-item__fields";
@@ -190,7 +192,13 @@
   document.querySelectorAll("[data-section]").forEach(function (panel) {
     var fields = panel.querySelectorAll("[data-field]");
     fields.forEach(function (input) {
-      input.value = content[input.getAttribute("data-field")] || "";
+      var key = input.getAttribute("data-field");
+      input.value = content[key] || "";
+      if (input.tagName === "TEXTAREA" && R.isRichKey(key)) {
+        var label = panel.querySelector("label[for='" + input.id + "']");
+        var editor = new R.Editor(input, label ? label.textContent : key);
+        if (label) label.addEventListener("click", function (e) { e.preventDefault(); editor.area.focus(); });
+      }
     });
 
     var lists = Array.prototype.map.call(panel.querySelectorAll("[data-list]"), function (el) {
