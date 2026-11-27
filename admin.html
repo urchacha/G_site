@@ -18,16 +18,56 @@
       <img src="assets/logo.png" alt="G+ 로고" height="48">
       <span class="admin-header__title">관리자 — 문구 수정</span>
     </div>
-    <a href="index.html" class="admin-header__link">사이트로 이동 →</a>
+    <div class="admin-header__right">
+      <span class="admin-header__user" id="who" hidden></span>
+      <button type="button" class="admin-header__logout" id="logout" hidden>로그아웃</button>
+      <a href="index.html" class="admin-header__link">사이트로 이동 →</a>
+    </div>
   </header>
 
   <main class="admin-main">
 
+    <!-- LOGIN -->
+    <section class="panel panel--auth" id="auth" hidden>
+      <h2>관리자 로그인</h2>
+      <p class="panel__hint">문구는 서버(Supabase)에 저장되어 모든 방문자에게 똑같이 보입니다. 수정 권한이 있는 계정으로 로그인하세요.</p>
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-email">이메일</label>
+          <input id="login-email" type="email" autocomplete="username" required>
+        </div>
+        <div class="field">
+          <label for="login-password">비밀번호</label>
+          <input id="login-password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="save-row">
+          <button type="submit" class="btn-save" id="login-btn">로그인</button>
+          <span class="pill pill-err" id="login-error" hidden></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- STATUS (loading / no access / errors) -->
+    <section class="panel" id="status" hidden>
+      <p class="status__text" id="status-text"></p>
+    </section>
+
+    <div id="editor" hidden>
+
+    <!-- IMPORT edits saved by the old browser-only admin page -->
+    <section class="panel panel--notice" id="legacy" hidden>
+      <h2>이 브라우저에 남아 있는 예전 수정 문구</h2>
+      <p class="panel__hint">서버 저장으로 바뀌기 전에 이 브라우저에서 수정한 문구가 있습니다. 서버로 가져오면 모든 방문자에게 보이게 됩니다. 가져오면 같은 항목의 현재 서버 문구는 덮어씁니다.</p>
+      <p class="legacy__keys" id="legacy-keys"></p>
+      <div class="save-row">
+        <button type="button" class="btn-save" id="legacy-import">서버로 가져오기</button>
+        <button type="button" class="btn-ghost" id="legacy-discard">가져오지 않고 지우기</button>
+        <span class="pill pill-err" id="legacy-error" hidden></span>
+      </div>
+    </section>
+
     <p class="admin-note">여러 줄 입력칸은 <b>굵게</b> · <span style="color:#0072BC">글자색</span> · 글자 크기를 바꿀 수 있습니다. 바꿀 글자를 드래그해 선택한 뒤 입력칸 위의 버튼을 누르세요. 다른 곳에서 복사해 붙여넣으면 서식 없이 글자만 들어갑니다.</p>
 
-    <div id="load-error" class="panel panel--error" hidden>
-      <p>저장소를 사용할 수 없습니다. 사생활 보호 모드를 끄거나 다른 브라우저에서 열어 주세요.</p>
-    </div>
 
     <!-- HERO -->
     <section class="panel" data-section>
@@ -147,6 +187,24 @@
       </div>
     </section>
 
+    <!-- PRODUCTS — series photos (table series_photo + Storage bucket "photo") -->
+    <section class="panel" id="series-panel">
+      <h2>제품소개 — 시리즈 사진 · 소개</h2>
+      <p class="panel__hint">제품소개 페이지의 시리즈 카드입니다. 같은 시리즈 코드의 모델은 한 카드로 묶이고, 순서 번호가 작은 것부터 표시됩니다(GP로 시작하면 정밀 유성감속기, 나머지는 할로우 로터리). 사진은 고르는 즉시 올라가며, 내용 수정·추가·삭제는 ‘저장’을 눌러야 반영됩니다.</p>
+      <div class="series-filter">
+        <label for="series-search">찾기</label>
+        <input id="series-search" type="search" placeholder="코드 · 모델명 · 설명">
+      </div>
+      <div class="list" id="series-list"></div>
+      <button type="button" class="btn-add" id="series-add">+ 모델 추가</button>
+      <div class="save-row">
+        <button type="button" class="btn-save" id="series-save">저장</button>
+        <span class="pill pill-warn" id="series-dirty" data-dirty hidden>저장 안 됨</span>
+        <span class="pill pill-ok" id="series-saved" data-saved hidden>저장됨</span>
+        <span class="pill pill-err" id="series-error" hidden></span>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section class="panel" data-section>
       <h2>문의 · 연락처 (전 페이지 공통)</h2>
@@ -173,10 +231,16 @@
       </div>
     </section>
 
+    </div><!-- /#editor -->
+
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/content.js"></script>
   <script src="js/richtext.js"></script>
+  <script src="js/series.js"></script>
   <script src="js/admin.js"></script>
+  <script src="js/admin-series.js"></script>
 </body>
 </html>

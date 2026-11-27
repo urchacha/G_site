@@ -11,8 +11,7 @@
     return value;
   }
 
-  function render() {
-    var content = C.loadContent();
+  function render(content) {
 
     document.querySelectorAll("[data-bind]").forEach(function (node) {
       var key = node.getAttribute("data-bind");
@@ -71,10 +70,20 @@
     });
   }
 
-  render();
+  // The bound elements are empty in the HTML, so nothing wrong is shown while
+  // loading. Repeat visitors get their cached copy at once; everyone then gets
+  // the current copy from Supabase. If Supabase is unreachable, the cached copy
+  // (or the built-in defaults) stays on screen.
+  var hasCache = !!C.readCache();
+  if (hasCache) render(C.loadCached());
 
-  // Re-render when the admin page (open in another tab) saves changes.
+  C.fetchRemote().then(render, function (err) {
+    if (window.console) console.warn("[G+] " + err.message + " 저장된/기본 문구를 표시합니다.");
+    if (!hasCache) render(C.loadCached());
+  });
+
+  // Re-render when the admin page (open in another tab of this browser) saves.
   window.addEventListener("storage", function (e) {
-    if (e.key === C.STORAGE_KEY) render();
+    if (e.key === C.CACHE_KEY) render(C.loadCached());
   });
 })();

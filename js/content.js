@@ -1,16 +1,27 @@
 /*
- * Site content: defaults + a tiny content store shared by every public page and admin.html.
+ * Site content: defaults + the content store shared by every public page and admin.html.
  *
- * Storage backend: browser localStorage (key "gplus.site.v2"). Edits made in
- * admin.html are visible on the site in the same browser only. To publish
- * edits for every visitor, replace loadContent()/saveFields() with calls to a
- * real backend (e.g. a JSON API or Supabase table) — nothing else needs to change.
+ * Storage backend: Supabase table public.site_content (see js/config.js), one row
+ * per key: { key: "heroTitle", value: <JSON> }. Anyone can read it; only accounts
+ * in public.site_admins can write (enforced by row-level security on the server).
+ *
+ * - Public pages: loadCached() returns defaults + the last copy this browser
+ *   fetched (so repeat visits render instantly), fetchRemote() gets the current
+ *   copy from Supabase and refreshes that cache.
+ * - admin.html saves through its signed-in Supabase client (see js/admin.js).
+ *
+ * Keys missing from the table fall back to DEFAULTS below.
  *
  * List fields (arrays of strings) such as aboutParagraphs are edited paragraph by
  * paragraph in admin.html and rendered with data-bind-list / data-bind="key.N".
  */
 (function () {
-  var STORAGE_KEY = "gplus.site.v2";
+  var CFG = window.GPLUS_CONFIG || {};
+  /* Per-browser copy of the last fetched content (display cache only). */
+  var CACHE_KEY = "gplus.site.cache.v1";
+  /* Where admin.html used to save edits before Supabase; read once for import. */
+  var LEGACY_KEY = "gplus.site.v2";
+  var FETCH_TIMEOUT_MS = 6000;
 
   var DEFAULTS = {
     heroEyebrow: "Drive the World, Link the Future",
@@ -45,13 +56,17 @@
     email: "gplus@gpluskorea.kr",
   };
 
-  function readRaw() {
+  function readJson(key) {
     try {
-      var raw = window.localStorage.getItem(STORAGE_KEY);
+      var raw = window.localStorage.getItem(key);
       return raw ? JSON.parse(raw) : null;
     } catch (e) {
       return null;
     }
+  }
+
+  function writeJson(key, value) {
+    try { window.localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* cache is optional */ }
   }
 
   /* Earlier versions stored the intro as three fixed fields (aboutPara1..3). */
@@ -67,28 +82,89 @@
     return next;
   }
 
-  /** Returns the full content object, stored values merged over defaults. */
-  function loadContent() {
-    var merged = Object.assign({}, DEFAULTS, migrate(readRaw()) || {});
+  /* Keeps only known keys whose value has the same shape as the default. */
+  function pickKnown(obj) {
+    var out = {};
+    Object.keys(obj || {}).forEach(function (k) {
+      if (!(k in DEFAULTS)) return;
+      var v = obj[k];
+      if (Array.isArray(DEFAULTS[k]) ? Array.isArray(v) : typeof v === "string") out[k] = v;
+    });
+    return out;
+  }
+
+  /** Defaults with `values` merged over them; lists are copied. */
+  function merge(values) {
+    var merged = Object.assign({}, DEFAULTS, pickKnown(values));
     merged.aboutParagraphs = (merged.aboutParagraphs || []).slice();
     merged.news = (merged.news || []).map(function (n) { return Object.assign({}, n); });
     return merged;
   }
 
-  /** Saves a partial update ({ key: value, ... }). Throws on failure. */
-  function saveFields(patch) {
-    var next = Object.assign({}, migrate(readRaw()) || {}, patch);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch (e) {
-      throw new Error("저장에 실패했습니다.");
-    }
+  /** Rows [{key, value}] → { key: value }. */
+  function rowsToObject(rows) {
+    var out = {};
+    (rows || []).forEach(function (r) { out[r.key] = r.value; });
+    return out;
+  }
+
+  /** Last content this browser fetched (or null if never fetched). */
+  function readCache() {
+    return readJson(CACHE_KEY);
+  }
+
+  function writeCache(values) {
+    writeJson(CACHE_KEY, pickKnown(values));
+  }
+
+  /** Defaults + cached values, synchronously (for an instant first render). */
+  function loadCached() {
+    return merge(readCache());
+  }
+
+  /** Fetches the current content from Supabase. Resolves to the merged object. */
+  function fetchRemote() {
+    if (!CFG.supabaseUrl || !CFG.supabaseKey) return Promise.reject(new Error("Supabase 설정이 없습니다."));
+    var ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, FETCH_TIMEOUT_MS) : null;
+    var url = CFG.supabaseUrl + "/rest/v1/" + (CFG.table || "site_content") + "?select=key,value";
+    return fetch(url, {
+      headers: { apikey: CFG.supabaseKey, Accept: "application/json" },
+      cache: "no-store",
+      signal: ctrl ? ctrl.signal : undefined,
+    }).then(function (res) {
+      if (timer) clearTimeout(timer);
+      if (!res.ok) throw new Error("문구를 불러오지 못했습니다 (" + res.status + ").");
+      return res.json();
+    }).then(function (rows) {
+      var values = rowsToObject(rows);
+      writeCache(values);
+      return merge(values);
+    });
+  }
+
+  /** Edits saved by the old localStorage-only admin page, if any. */
+  function readLegacy() {
+    var stored = migrate(readJson(LEGACY_KEY));
+    var known = pickKnown(stored);
+    return Object.keys(known).length ? known : null;
+  }
+
+  function clearLegacy() {
+    try { window.localStorage.removeItem(LEGACY_KEY); } catch (e) { /* ignore */ }
   }
 
   window.GPlusContent = {
-    STORAGE_KEY: STORAGE_KEY,
+    CACHE_KEY: CACHE_KEY,
     DEFAULTS: DEFAULTS,
-    loadContent: loadContent,
-    saveFields: saveFields,
+    merge: merge,
+    pickKnown: pickKnown,
+    rowsToObject: rowsToObject,
+    readCache: readCache,
+    writeCache: writeCache,
+    loadCached: loadCached,
+    fetchRemote: fetchRemote,
+    readLegacy: readLegacy,
+    clearLegacy: clearLegacy,
   };
 })();
