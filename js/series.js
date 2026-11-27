@@ -68,6 +68,61 @@
     return list;
   }
 
+  /*
+   * Photos arrive with very different margins (some tightly cropped, some with
+   * wide transparent borders), so products looked bigger or smaller card to card.
+   * Find the product's bounding box (pixels that are neither transparent nor
+   * near-white) and place the image so that box fills PRODUCT_FILL of the frame,
+   * centred. If the pixels cannot be read, the plain "contain" layout stays.
+   */
+  var PRODUCT_FILL = 0.72;
+  var SAMPLE = 200;
+  var boxCache = {};
+
+  function productBox(img) {
+    var key = img.currentSrc || img.src;
+    if (key in boxCache) return boxCache[key];
+    var w = img.naturalWidth, h = img.naturalHeight;
+    var k = Math.min(1, SAMPLE / Math.max(w, h));
+    var cw = Math.max(1, Math.round(w * k)), ch = Math.max(1, Math.round(h * k));
+    var canvas = document.createElement("canvas");
+    canvas.width = cw; canvas.height = ch;
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, cw, ch);
+    var d = ctx.getImageData(0, 0, cw, ch).data; // throws if the image is cross-origin without CORS
+    var x0 = cw, y0 = ch, x1 = -1, y1 = -1;
+    for (var y = 0; y < ch; y++) {
+      for (var x = 0; x < cw; x++) {
+        var i = (y * cw + x) * 4;
+        if (d[i + 3] < 24) continue;
+        if (d[i] > 243 && d[i + 1] > 243 && d[i + 2] > 243) continue;
+        if (x < x0) x0 = x; if (x > x1) x1 = x;
+        if (y < y0) y0 = y; if (y > y1) y1 = y;
+      }
+    }
+    var box = x1 < 0 ? null : { x: x0 / cw, y: y0 / ch, w: (x1 - x0 + 1) / cw, h: (y1 - y0 + 1) / ch, ratio: w / h };
+    boxCache[key] = box;
+    return box;
+  }
+
+  function fitProduct(img) {
+    img.classList.remove("is-fitted");
+    img.style.cssText = "";
+    var box;
+    try { box = productBox(img); } catch (e) { return; }
+    if (!box) return;
+    // Image size in units of its own width/height, then in units of the square frame.
+    var bw = box.w * box.ratio, bh = box.h;          // box in "image height" units
+    var scale = PRODUCT_FILL / Math.max(bw, bh);     // frame side per image height
+    var imgW = box.ratio * scale, imgH = scale;      // image size as a fraction of the frame
+    var cx = (box.x + box.w / 2) * imgW, cy = (box.y + box.h / 2) * imgH;
+    img.style.width = (imgW * 100) + "%";
+    img.style.height = (imgH * 100) + "%";
+    img.style.left = ((0.5 - cx) * 100) + "%";
+    img.style.top = ((0.5 - cy) * 100) + "%";
+    img.classList.add("is-fitted");
+  }
+
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -78,14 +133,17 @@
   function card(series) {
     var root = el("article", "scard");
     var media = el("div", "scard__media");
+    var frame = el("div", "scard__frame");
     var img = el("img", "scard__img");
     img.width = 220; img.height = 220;
     img.loading = "lazy"; img.decoding = "async";
+    img.crossOrigin = "anonymous"; // lets fitProduct() read the pixels (Storage sends CORS headers)
     var missing = el("span", "scard__missing", series.code);
     missing.hidden = true;
     img.addEventListener("error", function () { img.hidden = true; missing.hidden = false; });
-    img.addEventListener("load", function () { img.hidden = false; missing.hidden = true; });
-    media.appendChild(img);
+    img.addEventListener("load", function () { img.hidden = false; missing.hidden = true; fitProduct(img); });
+    frame.appendChild(img);
+    media.appendChild(frame);
     media.appendChild(missing);
 
     var body = el("div", "scard__body");
